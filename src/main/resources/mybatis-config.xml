@@ -102,5 +102,6 @@
     </environments>
     <mappers>
         <mapper resource="com/heyuhuan/model/Blog.xml"/>
+        <mapper resource="com/heyuhuan/model/Article.xml"/>
     </mappers>
 </configuration>

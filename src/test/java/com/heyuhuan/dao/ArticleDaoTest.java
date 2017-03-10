@@ -1,5 +1,7 @@
-import com.heyuhuan.dao.BlogDao;
-import com.heyuhuan.model.Blog;
+package com.heyuhuan.dao;
+
+import com.heyuhuan.model.Article;
+import com.heyuhuan.model.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,14 +11,14 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
+ * 文章DAO测试类
+ *
  * @author Heyuhuan
- * @create 2017-03-07-11:38
+ * @create 2017-03-10-16:35
  */
-
-public class SessionFactoryTest {
+public class ArticleDaoTest {
     SqlSessionFactory sqlSessionFactory;
 
     @Before
@@ -27,37 +29,25 @@ public class SessionFactoryTest {
     }
 
     @Test
-    public void find() {
+    public void selectArticle() {
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            //Blog blog = (Blog) session.selectOne("com.heyuhuan.dao.BlogDao.selectBlog", 1);
-            BlogDao blogDao = session.getMapper(BlogDao.class);
-            Blog blog = blogDao.selectBlog(1);
-            System.out.println(blog);
+            ArticleDao articleDao = session.getMapper(ArticleDao.class);
+            Article article = articleDao.selectArticle(2);
+            System.out.println(article.getId());
+            System.out.println(article.getUser().getId());
         } finally {
             session.close();
         }
     }
 
     @Test
-    public void insertBlog() {
+    public void selectUser() {
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            BlogDao blogDao = session.getMapper(BlogDao.class);
-            blogDao.insertBlog("2");
-            session.commit();
-        } finally {
-            session.close();
-        }
-    }
-
-    @Test
-    public void insertBlogs() {
-        SqlSession session = sqlSessionFactory.openSession();
-        try {
-            BlogDao blogDao = session.getMapper(BlogDao.class);
-            blogDao.insertBlogs(Arrays.asList("3", "4"));
-            session.commit();
+            ArticleDao articleDao = session.getMapper(ArticleDao.class);
+            User user = articleDao.selectUser(1);
+            System.out.println(user.getArticles().size());
         } finally {
             session.close();
         }

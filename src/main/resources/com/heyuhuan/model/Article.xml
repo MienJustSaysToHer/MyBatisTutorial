@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heyuhuan.dao.ArticleDao">
+    <resultMap id="articleResult" type="Article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <!--<association property="user" column="userid" javaType="User" resultMap="userResult" columnPrefix="u"/>-->
+    </resultMap>
+
+    <resultMap id="userResult" type="User">
+        <id property="id" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="userAge" column="userAge"/>
+        <result property="userAddress" column="userAddress"/>
+        <collection property="articles" ofType="Article" resultMap="articleResult" columnPrefix="a" fetchType="lazy"/>
+    </resultMap>
+
+    <select id="selectArticle" resultMap="articleResult">
+        SELECT
+            a.id          AS id,
+            a.title       AS title,
+            a.content     AS content,
+            u.id          AS uid,
+            u.userName    AS uuserName,
+            u.userAge     AS uuserAge,
+            u.userAddress AS uuserAddress
+        FROM article a
+            LEFT OUTER JOIN user u ON a.userid = u.id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="selectUser" resultMap="userResult">
+        SELECT
+            a.id          AS aid,
+            a.title       AS atitle,
+            a.content     AS acontent,
+            u.id          AS id,
+            u.userName    AS userName,
+            u.userAge     AS userAge,
+            u.userAddress AS userAddress
+        FROM user u
+            LEFT OUTER JOIN article a ON u.id = a.userid
+        WHERE u.id = #{id}
+    </select>
+
+
+    <!--开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+</mapper>
