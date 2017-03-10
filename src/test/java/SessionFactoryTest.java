@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * @author Heyuhuan
@@ -33,6 +34,30 @@ public class SessionFactoryTest {
             BlogDao blogDao = session.getMapper(BlogDao.class);
             Blog blog = blogDao.selectBlog(1);
             System.out.println(blog);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void insertBlog() {
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            BlogDao blogDao = session.getMapper(BlogDao.class);
+            blogDao.insertBlog("2");
+            session.commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void insertBlogs() {
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            BlogDao blogDao = session.getMapper(BlogDao.class);
+            blogDao.insertBlogs(Arrays.asList("3", "4"));
+            session.commit();
         } finally {
             session.close();
         }

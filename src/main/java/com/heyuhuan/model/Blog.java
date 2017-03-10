@@ -8,7 +8,7 @@ package com.heyuhuan.model;
 public class Blog {
     Integer id;
 
-    String Context;
+    String context;
 
     public Integer getId() {
         return id;
@@ -19,10 +19,10 @@ public class Blog {
     }
 
     public String getContext() {
-        return Context;
+        return context;
     }
 
     public void setContext(String context) {
-        Context = context;
+        this.context = context;
     }
 }
