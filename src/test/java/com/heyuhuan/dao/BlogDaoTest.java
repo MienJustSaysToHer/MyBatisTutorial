@@ -76,4 +76,40 @@ public class BlogDaoTest {
             session.close();
         }
     }
+
+    @Test
+    public void selectBlogWithContext() {
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            BlogDao blogDao = session.getMapper(BlogDao.class);
+            Blog blog = blogDao.selectBlogWithContext(1, "%%2%%");
+            System.out.println(blog);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void selectBlogWithDefaultContext() {
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            BlogDao blogDao = session.getMapper(BlogDao.class);
+            Blog blog = blogDao.selectBlogWithDefaultContext("23");
+            System.out.println(blog);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void selectBlogWithTrim() {
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            BlogDao blogDao = session.getMapper(BlogDao.class);
+            Blog blog = blogDao.selectBlogWithTrim("23");
+            System.out.println(blog);
+        } finally {
+            session.close();
+        }
+    }
 }

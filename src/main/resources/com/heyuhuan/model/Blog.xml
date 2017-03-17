@@ -49,4 +49,35 @@
             <property name="alias" value="#{id}"/>
         </include>
     </select>
+
+    <select id="selectBlogWithContext" resultType="Blog">
+        SELECT * FROM blog
+        WHERE id = #{id}
+        <if test="context != null">
+            AND context like #{context}
+        </if>
+    </select>
+
+    <select id="selectBlogWithDefaultContext" resultType="Blog">
+        <bind name="id" value="1"/>
+        SELECT * FROM blog
+        WHERE id = #{id}
+        <choose>
+            <when test="context != null">
+                AND context like #{context}
+            </when>
+            <otherwise>
+                AND context like '23'
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectBlogWithTrim" resultType="Blog">
+        SELECT * FROM blog
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="_parameter != null">
+                AND context like #{context}
+            </if>
+        </trim>
+    </select>
 </mapper>

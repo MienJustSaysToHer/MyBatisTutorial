@@ -1,6 +1,7 @@
 package com.heyuhuan.dao;
 
 import com.heyuhuan.model.Blog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,10 @@ public interface BlogDao {
     void insertBlogs(List<String> contexts);
 
     Blog selectBlogColumns(int id);
+
+    Blog selectBlogWithContext(@Param("id") int id, @Param("context") String context);
+
+    Blog selectBlogWithDefaultContext(@Param("context") String context);
+
+    Blog selectBlogWithTrim(String context);
 }
